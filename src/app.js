@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const path = require('path');
 const { 
-    routes 
+    routes,
+    transactionTypesRoutes
 } = require("./routes/router");
 
 // initialize app
@@ -37,7 +38,8 @@ app.use(function (req, res, next) {
 });
 
 // define routes
-app.use('/', routes);
+app.use('/api', routes);
+app.use('/api/transaction-types', transactionTypesRoutes);
 
 module.exports = app;
 

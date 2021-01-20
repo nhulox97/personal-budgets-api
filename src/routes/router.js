@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const transactionTypesRouter = require("./transactionTypes");
 
 router.get('/', (_, res) => {
     res.send({
@@ -7,6 +8,6 @@ router.get('/', (_, res) => {
 });
 
 module.exports = {
-    routes: router
+    routes: router,
+    transactionTypesRoutes: transactionTypesRouter
 }
-
