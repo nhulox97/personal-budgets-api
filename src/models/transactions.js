@@ -23,6 +23,7 @@ const TransactionSchema = new db.Schema({
         default: true
     },
     transaction_created_at: { type: Date, default: Date.now() },
+    transaction_updated_at: { type: Date, default: Date.now() },
     transaction_type: {
         type: db.Schema.Types.ObjectId,
         ref: 'transaction-types',

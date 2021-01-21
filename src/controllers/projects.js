@@ -6,6 +6,7 @@ const {
     internalServerErrorResponse
 } = require('../utils/reponseHandler');
 const { validationError } = require('../utils/mongooseErrorsHandler');
+const { findRegisterById } = require('../utils/mongooseQueryHandler');
 
 /** Obtener todas los projects
  * @param {Request} req
@@ -35,4 +36,61 @@ exports.addProject = function(req, res) {
         }
         return successResponse(res, nProject);
     }) 
+}
+
+/** Actualizar un project, es necesario que en req.body se envie la propiedad
+ * project_id, de lo contrario no se podra ejecutar la funcion update
+ * @param {Request} req
+ * @param {Response} res
+ */
+exports.updateProject = async function(req, res) {
+    const nProject = req.body;
+    // Verificar si el req.body contiene las propiedades del project
+    if (Object.keys(nProject).length <= 1 || nProject.constructor === {})
+        return badResponse(res, { project: { 
+            msg: 'No fueron enviados los parametros necesarios' } 
+        });
+    const { _id } = nProject;
+    // Verificar si el id del project fu enviado
+    if (!_id)
+        return badResponse(res, { _id: {
+            msg: 'No se recibio el id del project' 
+        } });
+    const projectExists = await findRegisterById(Project, _id);
+    // Verificar si el project existe
+    if (!projectExists)
+        return notFoundResponse(res, `Project -> ${_id}`);
+    // Adding updating date
+    nProject.project_updated_at = new Date();
+    Project.findByIdAndUpdate(_id, nProject, { new: true }, (err, result) => {
+        if (err)
+            return internalServerErrorResponse(res, err);
+        // Enviar el project actualizado
+        return successResponse(res, result);
+    });
+}
+
+/** Eliminar un project, es necesario que en req.body se envie la propiedad
+ * project_id, de lo contrario no se podra ejecutar la funcion delete.
+ * @param {Request} req
+ * @param {Response} res
+ */
+exports.deleteProject = async function(req, res) {
+    const project = req.body;
+    const { _id } = project;
+    // Verificar si el id del project fu enviado
+    if (!_id)
+        return badResponse(res, { _id: { msg: 'No se recibio el id del project' } });
+    const projectExists = await findRegisterById(Project, _id);
+    // Verificar si el project existe
+    if (!projectExists)
+        return notFoundResponse(res, `Project -> ${_id}`);
+    project.project_status = false;
+    Project.findByIdAndUpdate(_id, project, { new: true }, (err, result) => {
+        if (err)
+            return internalServerErrorResponse(res, err);
+        console.log(result);
+        // Enviar el project se ha eliminado
+        return successResponse(res, result);
+    });
 }

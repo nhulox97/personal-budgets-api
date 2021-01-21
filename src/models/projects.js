@@ -27,7 +27,8 @@ const ProjectSchema = new db.Schema({
         minlength: 5,
         maxlength: 140
     },
-    project_created_at: { type: Date, default: Date.now() }
+    project_created_at: { type: Date, default: Date.now() },
+    project_updated_at: { type: Date, default: Date.now() }
 });
 
 const Project = db.mongoose.model('projects', ProjectSchema);
