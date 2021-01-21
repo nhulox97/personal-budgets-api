@@ -12,7 +12,8 @@ const { validationError } = require('../utils/mongooseErrorsHandler');
  * @param {Response} res
  */
 exports.getTransactions = function(req, res) {
-    Transaction.find((err, transactions) => {
+    const { project } = req.body;
+    Transaction.find({ project: `${project}` }, (err, transactions) => {
         if (err)
             return internalServerErrorResponse(res, err);
         if (transactions.length < 1)
@@ -21,8 +22,7 @@ exports.getTransactions = function(req, res) {
     });
 }
 
-
-/** Para agregar un tipo de transaccion se reciben las propiedades
+/** Para agregar una transaccion se reciben las propiedades
  * de este atraves del body.
  * @param {Request} req
  * @param {Response} res
@@ -35,6 +35,5 @@ exports.addTransaction = function(req, res) {
             return badResponse(res, error);
         }
         return successResponse(res, nTransaction);
-    }) 
+    }); 
 }
-

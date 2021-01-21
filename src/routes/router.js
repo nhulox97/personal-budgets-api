@@ -1,6 +1,7 @@
-const router = require("express").Router();
-const transactionTypesRouter = require("./transactionTypes");
-const transactionsRouter = require("./transactions");
+const router = require('express').Router();
+const transactionTypesRouter = require('./transactionTypes');
+const transactionsRouter = require('./transactions');
+const projectRouter = require('./projects');
 
 router.get('/', (_, res) => {
     res.send({
@@ -11,5 +12,6 @@ router.get('/', (_, res) => {
 module.exports = {
     routes: router,
     transactionTypesRoutes: transactionTypesRouter,
-    transactionsRoutes: transactionsRouter
+    transactionsRoutes: transactionsRouter,
+    projectRoutes: projectRouter
 }

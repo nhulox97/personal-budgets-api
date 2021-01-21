@@ -4,7 +4,8 @@ const path = require('path');
 const { 
     routes,
     transactionTypesRoutes,
-    transactionsRoutes
+    transactionsRoutes,
+    projectRoutes
 } = require("./routes/router");
 
 // initialize app
@@ -42,6 +43,7 @@ app.use(function (req, res, next) {
 app.use('/api', routes);
 app.use('/api/transaction-types', transactionTypesRoutes);
 app.use('/api/transactions', transactionsRoutes);
+app.use('/api/projects', projectRoutes);
 
 module.exports = app;
 

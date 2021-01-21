@@ -18,10 +18,20 @@ const TransactionSchema = new db.Schema({
         minlength: 5,
         maxlength: 140
     },
+    transaction_status: {
+        type: Boolean,
+        default: true
+    },
     transaction_created_at: { type: Date, default: Date.now() },
     transaction_type: {
         type: db.Schema.Types.ObjectId,
         ref: 'transaction-types',
+        required: true,
+        autopopulate: true
+    },
+    project: {
+        type: db.Schema.Types.ObjectId,
+        ref: 'projects',
         required: true,
         autopopulate: true
     }
