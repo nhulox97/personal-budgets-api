@@ -1,11 +1,15 @@
 const transactionsRouter = require('express').Router();
 const { 
     addTransaction,
-    getTransactions
+    getTransactions,
+    updateTransaction,
+    deleteTransaction
 } = require('../controllers/transactions');
 
 transactionsRouter.route('/')
     .get(getTransactions)
-    .post(addTransaction);
+    .post(addTransaction)
+    .put(updateTransaction)
+    .delete(deleteTransaction);
 
 module.exports = transactionsRouter;

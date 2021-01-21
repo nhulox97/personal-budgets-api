@@ -35,7 +35,7 @@ exports.addProject = function(req, res) {
             return badResponse(res, error);
         }
         return successResponse(res, nProject);
-    }) 
+    }); 
 }
 
 /** Actualizar un project, es necesario que en req.body se envie la propiedad
@@ -62,12 +62,17 @@ exports.updateProject = async function(req, res) {
         return notFoundResponse(res, `Project -> ${_id}`);
     // Adding updating date
     nProject.project_updated_at = new Date();
-    Project.findByIdAndUpdate(_id, nProject, { new: true }, (err, result) => {
-        if (err)
-            return internalServerErrorResponse(res, err);
-        // Enviar el project actualizado
-        return successResponse(res, result);
-    });
+    Project.findByIdAndUpdate(
+        _id, 
+        nProject, 
+        { new: true }, 
+        (err, result) => {
+            if (err)
+                return internalServerErrorResponse(res, err);
+            // Enviar el project actualizado
+            return successResponse(res, result);
+        }
+    );
 }
 
 /** Eliminar un project, es necesario que en req.body se envie la propiedad
@@ -80,7 +85,9 @@ exports.deleteProject = async function(req, res) {
     const { _id } = project;
     // Verificar si el id del project fu enviado
     if (!_id)
-        return badResponse(res, { _id: { msg: 'No se recibio el id del project' } });
+        return badResponse(res, { _id: { 
+            msg: 'No se recibio el id del project' } 
+        });
     const projectExists = await findRegisterById(Project, _id);
     // Verificar si el project existe
     if (!projectExists)
@@ -89,7 +96,6 @@ exports.deleteProject = async function(req, res) {
     Project.findByIdAndUpdate(_id, project, { new: true }, (err, result) => {
         if (err)
             return internalServerErrorResponse(res, err);
-        console.log(result);
         // Enviar el project se ha eliminado
         return successResponse(res, result);
     });
