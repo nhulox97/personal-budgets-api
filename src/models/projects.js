@@ -21,6 +21,12 @@ const ProjectSchema = new db.Schema({
         type: Boolean,
         default: true
     },
+    project_desc: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 140
+    },
     project_created_at: { type: Date, default: Date.now() }
 });
 

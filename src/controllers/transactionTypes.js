@@ -7,6 +7,20 @@ const {
 } = require('../utils/reponseHandler');
 const { validationError } = require('../utils/mongooseErrorsHandler');
 
+/** Obtener todas los transacciones
+ * @param {Request} req
+ * @param {Response} res
+ */
+exports.getTransactionTypes = function(req, res) {
+    TransactionType.find((err, transactionTypes) => {
+        if (err)
+            return internalServerErrorResponse(res, err);
+        if (transactionTypes.length < 1)
+            return notFoundResponse(res, 'TransactionTypes');
+        return successResponse(res, transactionTypes);
+    });
+}
+
 /** Para agregar un tipo de transaccion se reciben las propiedades
  * de este atraves del body.
  * @param {Request} req

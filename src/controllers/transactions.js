@@ -13,7 +13,10 @@ const { validationError } = require('../utils/mongooseErrorsHandler');
  */
 exports.getTransactions = function(req, res) {
     const { project } = req.body;
-    Transaction.find({ project: `${project}` }, (err, transactions) => {
+    Transaction.find({ 
+        project: `${project}`, 
+        transaction_status: { $ne: false } 
+    }, (err, transactions) => {
         if (err)
             return internalServerErrorResponse(res, err);
         if (transactions.length < 1)

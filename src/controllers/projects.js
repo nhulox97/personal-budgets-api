@@ -12,7 +12,7 @@ const { validationError } = require('../utils/mongooseErrorsHandler');
  * @param {Response} res
  */
 exports.getProjects = function(req, res) {
-    Project.find((err, projects) => {
+    Project.find({ project_status: { $ne: false } }, (err, projects) => {
         if (err)
             return internalServerErrorResponse(res, err);
         if (projects.length < 1)
