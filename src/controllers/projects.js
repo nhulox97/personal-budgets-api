@@ -4,7 +4,7 @@ const {
     badResponse,
     notFoundResponse,
     internalServerErrorResponse
-} = require("../utils/reponseHandler");
+} = require('../utils/reponseHandler');
 const { validationError } = require('../utils/mongooseErrorsHandler');
 
 /** Obtener todas los projects

@@ -1,10 +1,10 @@
-const TransactionType = require("../models/transactionTypes");
+const TransactionType = require('../models/transactionTypes');
 const {
     successResponse,
     badResponse,
     notFoundResponse,
     internalServerErrorResponse
-} = require("../utils/reponseHandler");
+} = require('../utils/reponseHandler');
 const { validationError } = require('../utils/mongooseErrorsHandler');
 
 /** Para agregar un tipo de transaccion se reciben las propiedades

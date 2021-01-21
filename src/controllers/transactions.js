@@ -1,10 +1,10 @@
-const Transaction = require("../models/transactions");
+const Transaction = require('../models/transactions');
 const {
     successResponse,
     badResponse,
     notFoundResponse,
     internalServerErrorResponse
-} = require("../utils/reponseHandler");
+} = require('../utils/reponseHandler');
 const { validationError } = require('../utils/mongooseErrorsHandler');
 
 /** Obtener todas los transacciones
