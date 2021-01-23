@@ -10,28 +10,34 @@ const { findRegisterById } = require('../utils/mongooseQueryHandler');
 
 /** Obtener el total de los gastos de las transactions de un project
  * @param {Array} transactions
- * @returns {Number} gastos
+ * @returns {Array} [count, gastos]
  */
 function getGastos(transactions) {
     let gastos = 0;
+    let count = 0;
     transactions.forEach((transaction, _) => {
-        if(transaction.transaction_type.transaction_type_name === 'Gasto') 
-            gastos += transaction.transaction_amount;
+        if(transaction.transaction_type.transaction_type_name === 'Gasto') {
+            gastos += transaction.transaction_amount; 
+            count++;    
+        }
     });
-    return gastos;
+    return [count, gastos];
 }
 
 /** Obtener el total de los ingresos de las transactions de un project
  * @param {Array} transactions
- * @returns {Number} ingresos
+ * @returns {Array} [count, ingresos]
  */
 function getIngresos(transactions) {
-    let ingresos = 0;
+    let ingresos = 0; 
+    let count = 0;
     transactions.forEach((transaction, _) => {
-        if(transaction.transaction_type.transaction_type_name === 'Ingreso') 
+        if(transaction.transaction_type.transaction_type_name === 'Ingreso') {
             ingresos += transaction.transaction_amount;
+            count++
+        }
     });
-    return ingresos;
+    return [count, ingresos];
 }
 
 
@@ -49,9 +55,15 @@ exports.getTransactions = function(req, res) {
             return internalServerErrorResponse(res, err);
         if (transactions.length < 1)
             return notFoundResponse(res, 'Transactions');
-        const ingresos = getIngresos(transactions);
-        const gastos = getGastos(transactions);
-        return successResponse(res, { transactions, gastos, ingresos });
+        const [countIngresos, ingresos] = getIngresos(transactions);
+        const [countGastos, gastos] = getGastos(transactions);
+        return successResponse(res, { 
+            transactions, 
+            gastos,
+            countGastos,
+            ingresos,
+            countIngresos
+        });
     });
 }
 
