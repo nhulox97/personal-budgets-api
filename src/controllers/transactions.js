@@ -57,12 +57,16 @@ exports.getTransactions = function(req, res) {
             return notFoundResponse(res, 'Transactions');
         const [countIngresos, ingresos] = getIngresos(transactions);
         const [countGastos, gastos] = getGastos(transactions);
+        const saldo = ingresos - gastos;
+        const countTransacciones = countGastos + countIngresos;
         return successResponse(res, { 
             transactions, 
             gastos,
             countGastos,
             ingresos,
-            countIngresos
+            countIngresos,
+            saldo,
+            countTransacciones
         });
     });
 }
